@@ -54,8 +54,8 @@ network::network(string hostname, string port, bool is_server)
     //Uncommenting the following line would enable non-blocking sockets which whore cpu.
     //fcntl(sockfd, F_SETFL, O_NONBLOCK);
     if (is_server) {
-        std::cout << bind(sockfd,res->ai_addr, res->ai_addrlen) << std::endl;
-        std::cout << listen(sockfd,10) << std::endl;
+        bind(sockfd,res->ai_addr, res->ai_addrlen);
+        listen(sockfd,10);
         sockfd = accept(sockfd, res->ai_addr, &res->ai_addrlen);
     } else {
         connect(sockfd, res->ai_addr, res->ai_addrlen);
@@ -121,15 +121,13 @@ int network::recieveMsg(string &result)
     {
         temp[numbytes] = '\0';
         result = string(temp);
-        cout << result;// << endl << endl;
         return numbytes;
     }
 }
 
 int network::sendMsg(string message)
 {
-    message = message + "\n";
-    cout << "Sending: " << message;
+    cout << "Sending: " << message + "\n";
     const int len = message.size();
     //sent = send(sockfd, message.c_str(), len, 0);
     send(sockfd, message.c_str(), len, MSG_NOSIGNAL);
