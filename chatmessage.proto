@@ -1,0 +1,6 @@
+package chatroom;
+
+message ChatMessage {
+    required string name = 1;
+    required string text = 2;
+}
